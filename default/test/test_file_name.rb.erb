@@ -1,0 +1,11 @@
+require "test_helper"
+
+<%= make_sub_modules test_klass %>
+class <%= test_klass %> < Minitest::Test
+  def test_has_version_number
+    refute_nil <%= klass %>::VERSION
+  end
+  def test_sanity
+    flunk "write tests or I will kneecap you"
+  end
+end

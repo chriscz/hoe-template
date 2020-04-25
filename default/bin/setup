@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+set -vx
+
+# Do any other automated setup that you need to do here
+[ ! -e '.git' ] && git init
+rake gem:spec # generate a pre-release gemspec
+bundle install

@@ -1,0 +1,32 @@
+$LOAD_PATH.unshift File.expand_path("../lib", __dir__)
+require "<%= file_name %>"
+
+require "minitest/reporters"
+require "minitest/autorun"
+require "ostruct"
+
+require "test_fixtures"
+
+
+if ENV["SPEC"]
+  Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new 
+else
+  Minitest::Reporters.use! Minitest::Reporters::DefaultReporter.new 
+end
+
+class Minitest::Test
+  make_my_diffs_pretty!
+end
+
+module Minitest::Assertions
+  def assert_interface(obj, interface, msg = nil)
+    missing = []
+    interface.instance_methods.each do |sym|
+      unless obj.respond_to?(sym)
+        missing << sym
+      end
+    end
+
+    assert missing.empty?, (msg || "#{obj.inspect} is missing methods: #{missing.join(', ')}")
+  end
+end
